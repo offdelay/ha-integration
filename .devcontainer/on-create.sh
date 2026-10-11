@@ -37,14 +37,19 @@ unset _hook_file
 
 # Fix ownership of named volume mount points.
 # Docker creates each volume mount point as root:root when the container starts.
-# Volumes are now mounted directly under $HOME (ha-venv and uv-cache) so Docker
-# does NOT create ~/.local or ~/.cache as root — VS Code server can write there freely.
+# HA and uv volumes are mounted directly under $HOME. Nested tool volumes can
+# still leave parent directories such as ~/.local owned by root.
+sudo mkdir -p /home/vscode/.local/share /home/vscode/.config
+sudo chown vscode:vscode /home/vscode/.local /home/vscode/.local/share /home/vscode/.config
+
 print_info "Fixing ownership of Docker volume mount points..."
 for _volume_mount in \
     /home/vscode/ha-venv \
     /home/vscode/uv-cache \
     /home/vscode/.claude \
     /home/vscode/.codex \
+    /home/vscode/.local/share/opencode \
+    /home/vscode/.config/opencode \
     /home/vscode/.cache; do
     if [[ -e "$_volume_mount" ]]; then
         sudo chown -R vscode:vscode "$_volume_mount"
@@ -64,6 +69,17 @@ else
     print_info "No .devcontainer/claude-code/managed-settings.json found; skipping Claude Code managed settings install."
 fi
 unset _claude_managed_settings_source
+
+# Install OpenCode managed settings from the repository when present.
+_opencode_managed_settings_source="$(cd "$(dirname "$0")" && pwd)/opencode/opencode.json"
+if [[ -f "$_opencode_managed_settings_source" ]]; then
+    print_info "Installing OpenCode managed settings from .devcontainer/opencode/opencode.json..."
+    sudo mkdir -p /etc/opencode
+    sudo install -m 0644 "$_opencode_managed_settings_source" /etc/opencode/opencode.json
+else
+    print_info "No .devcontainer/opencode/opencode.json found; skipping OpenCode managed settings install."
+fi
+unset _opencode_managed_settings_source
 
 # Install Codex defaults below the user-managed configuration layer.
 _codex_config_source="$(cd "$(dirname "$0")" && pwd)/codex/config.toml"

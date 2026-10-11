@@ -38,6 +38,11 @@ bash .devcontainer/setup-shell.sh
 bash .devcontainer/setup-git.sh
 script/setup/setup
 
+print_info "Installing OpenCode CLI..."
+set -o pipefail
+curl -fsSL https://opencode.ai/v2/install | bash -s -- --no-modify-path
+sudo install -m 0755 /home/vscode/.opencode/bin/opencode /usr/local/bin/opencode
+
 # Run post-hook if present
 _hook_file="$(cd "$(dirname "$0")" && pwd)/hooks/post-create.post.sh"
 if [[ -f "$_hook_file" ]]; then

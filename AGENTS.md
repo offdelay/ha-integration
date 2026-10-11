@@ -48,8 +48,9 @@ touch. See [`blueprint-tooling`](.agents/skills/blueprint-tooling/SKILL.md).
 
 Instruction files load automatically for the file you are touching in **GitHub Copilot and VS Code** (via `applyTo`)
 and in **Claude Code** (via `paths`, through the `.claude/rules/instructions` symlink) — one copy serves both.
-**Codex has no file-triggered mechanism: open the matching instructions file yourself** before editing a file of that
-type.
+**Codex and OpenCode do not apply these file-scoped rules automatically: open the matching instructions file**
+before editing a file of that type. OpenCode reads this `AGENTS.md` and discovers the shared skills in
+`.agents/skills/`.
 
 Skills follow the [Agent Skills standard](https://agentskills.io/specification) and are loaded automatically by every
 agent that implements it. If yours does not, read the `SKILL.md` before starting that kind of task.

@@ -249,6 +249,10 @@
     // Persist Codex CLI data (sessions/history/config) across container rebuilds.
     // Config bootstrap in on-create continues to work because this directory stays writable.
     "source=${localWorkspaceFolderBasename}_codex_home,target=/home/vscode/.codex,type=volume",
+    // Persist OpenCode sessions and authentication across container rebuilds.
+    "source=${localWorkspaceFolderBasename}_opencode_data,target=/home/vscode/.local/share/opencode,type=volume",
+    // Persist OpenCode CLI configuration across container rebuilds.
+    "source=${localWorkspaceFolderBasename}_opencode_config,target=/home/vscode/.config/opencode,type=volume",
     // Mount host gitconfig for local development (ignored in Codespaces)
     // In Codespaces, GitHub automatically configures Git with your account
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/vscode/.gitconfig.host,type=bind,consistency=cached,readonly"

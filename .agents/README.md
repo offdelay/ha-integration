@@ -17,12 +17,13 @@ implementation.
 Discovery paths are per-vendor; no standard defines them. Real directories live where the most clients look, and
 symlinks fill the rest:
 
-| Client         | Always-loaded context                   | Path-scoped rules                     | Skills            |
-| -------------- | --------------------------------------- | ------------------------------------- | ----------------- |
-| Codex CLI      | `AGENTS.md` (native)                    | — none; open the file yourself        | `.agents/skills/` |
-| GitHub Copilot | `AGENTS.md` (native)                    | `.github/instructions/` via `applyTo` | `.agents/skills/` |
-| VS Code        | `AGENTS.md` (native)                    | `.github/instructions/` via `applyTo` | `.agents/skills/` |
-| Claude Code    | `CLAUDE.md`, which imports `@AGENTS.md` | `.claude/rules/` via `paths`          | `.claude/skills/` |
+| Client         | Always-loaded context                   | Path-scoped rules                                                  | Skills            |
+| -------------- | --------------------------------------- | ------------------------------------------------------------------ | ----------------- |
+| Codex CLI      | `AGENTS.md` (native)                    | — none; open the file yourself                                     | `.agents/skills/` |
+| OpenCode       | `AGENTS.md` (native)                    | — none; open the matching file in `.agents/instructions/` yourself | `.agents/skills/` |
+| GitHub Copilot | `AGENTS.md` (native)                    | `.github/instructions/` via `applyTo`                              | `.agents/skills/` |
+| VS Code        | `AGENTS.md` (native)                    | `.github/instructions/` via `applyTo`                              | `.agents/skills/` |
+| Claude Code    | `CLAUDE.md`, which imports `@AGENTS.md` | `.claude/rules/` via `paths`                                       | `.claude/skills/` |
 
 ```text
 .agents/instructions/         real directory — edit here
@@ -56,8 +57,9 @@ every Claude Code session instead of the files it was scoped to.
 Rule of thumb: _style rules_ belong in `instructions/`, _procedures_ belong in a skill, _explanations_ belong in
 `docs/`. If you find yourself repeating a procedure in `AGENTS.md`, it is a skill.
 
-Codex is the exception on layer two — its nested `AGENTS.md` support keys off the working directory rather than the
-file being edited, so nothing loads automatically. Every skill therefore names the instructions file it depends on.
+Codex and OpenCode are exceptions on layer two: neither applies these file-scoped instructions automatically. Before
+editing a file, read the matching instruction from `.agents/instructions/`; every skill names the instruction file it
+depends on. OpenCode uses the root `AGENTS.md` and discovers the shared skills in `.agents/skills/` directly.
 
 ## Placeholders
 

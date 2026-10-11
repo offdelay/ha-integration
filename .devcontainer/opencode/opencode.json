@@ -1,0 +1,29 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "read": {
+      "**/.env.local": "deny",
+      "**/.env.local.*": "deny",
+      "config/.storage/auth": "deny",
+      "config/.storage/auth_provider.*": "deny",
+      "config/.storage/dev_access_token": "deny"
+    },
+    "edit": {
+      "**/.env.local": "deny",
+      "**/.env.local.*": "deny",
+      "config/.storage/auth": "deny",
+      "config/.storage/auth_provider.*": "deny",
+      "config/.storage/dev_access_token": "deny",
+      ".git/**": "deny",
+      ".agents/hooks/**": "deny",
+      ".claude/settings.json": "deny",
+      ".codex/hooks.json": "deny",
+      ".devcontainer/opencode/opencode.json": "deny",
+      ".github/workflows/**": "deny",
+      ".github/actions/**": "deny",
+      "release-please-config.json": "deny",
+      "script/release-notes": "deny",
+      "script/version": "deny"
+    }
+  }
+}
