@@ -62,6 +62,11 @@ DEPENDENCIES.md
 AGENTS.md
 CLAUDE.md
 
+# ── Claude Code project settings ─────────────────────────────
+# The committed example is project-owned; the personal settings.local.json
+# it is copied to is gitignored and untracked, so template sync never sees it.
+.claude/settings.local.json.example
+
 # ── Agent skills ─────────────────────────────────────────────
 # Skills under .agents/skills/ use generic placeholders and ARE safely synced,
 # so you keep receiving blueprint improvements.

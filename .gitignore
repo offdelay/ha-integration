@@ -26,6 +26,9 @@ node_modules/
 # Local DevContainer environment overrides (user-specific, see .devcontainer/.env.local.example)
 .devcontainer/.env.local
 
+# Local Claude Code settings (personal API token, see .claude/settings.local.json.example)
+.claude/settings.local.json
+
 # Local extra Python dependencies (user-specific, see requirements.txt for project deps)
 requirements.local.txt
 
