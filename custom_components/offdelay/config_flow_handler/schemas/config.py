@@ -3,7 +3,7 @@
 from collections.abc import Mapping
 from typing import Any
 
-import voluptuous as vol
+import probatio
 
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.helpers import selector
@@ -22,7 +22,7 @@ _PASSWORD_SELECTOR = selector.TextSelector(
 )
 
 
-def get_user_schema(defaults: Mapping[str, Any] | None = None) -> vol.Schema:
+def get_user_schema(defaults: Mapping[str, Any] | None = None) -> probatio.Schema:
     """
     Build the schema for the user step.
 
@@ -30,22 +30,22 @@ def get_user_schema(defaults: Mapping[str, Any] | None = None) -> vol.Schema:
         defaults: Previously submitted values, used to pre-fill the form.
 
     Returns:
-        The voluptuous schema for the credentials form.
+        The probatio schema for the credentials form.
 
     """
     defaults = defaults or {}
-    return vol.Schema(
+    return probatio.Schema(
         {
-            vol.Required(
+            probatio.Required(
                 CONF_USERNAME,
-                default=defaults.get(CONF_USERNAME, vol.UNDEFINED),
+                default=defaults.get(CONF_USERNAME, probatio.UNDEFINED),
             ): _USERNAME_SELECTOR,
-            vol.Required(CONF_PASSWORD): _PASSWORD_SELECTOR,
+            probatio.Required(CONF_PASSWORD): _PASSWORD_SELECTOR,
         },
     )
 
 
-def get_reconfigure_schema(username: str) -> vol.Schema:
+def get_reconfigure_schema(username: str) -> probatio.Schema:
     """
     Build the schema for the reconfigure step.
 
@@ -53,18 +53,18 @@ def get_reconfigure_schema(username: str) -> vol.Schema:
         username: The entry's current username, used to pre-fill the form.
 
     Returns:
-        The voluptuous schema for the reconfigure form.
+        The probatio schema for the reconfigure form.
 
     """
-    return vol.Schema(
+    return probatio.Schema(
         {
-            vol.Required(CONF_USERNAME, default=username): _USERNAME_SELECTOR,
-            vol.Required(CONF_PASSWORD): _PASSWORD_SELECTOR,
+            probatio.Required(CONF_USERNAME, default=username): _USERNAME_SELECTOR,
+            probatio.Required(CONF_PASSWORD): _PASSWORD_SELECTOR,
         },
     )
 
 
-def get_reauth_schema(username: str) -> vol.Schema:
+def get_reauth_schema(username: str) -> probatio.Schema:
     """
     Build the schema for the reauth step.
 
@@ -72,13 +72,13 @@ def get_reauth_schema(username: str) -> vol.Schema:
         username: The entry's current username, used to pre-fill the form.
 
     Returns:
-        The voluptuous schema for the reauth form.
+        The probatio schema for the reauth form.
 
     """
-    return vol.Schema(
+    return probatio.Schema(
         {
-            vol.Required(CONF_USERNAME, default=username): _USERNAME_SELECTOR,
-            vol.Required(CONF_PASSWORD): _PASSWORD_SELECTOR,
+            probatio.Required(CONF_USERNAME, default=username): _USERNAME_SELECTOR,
+            probatio.Required(CONF_PASSWORD): _PASSWORD_SELECTOR,
         },
     )
 

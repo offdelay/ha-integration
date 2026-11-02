@@ -5,11 +5,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from custom_components.offdelay.entity import OffdelayEntity
-from homeassistant.components.binary_sensor import (
-    BinarySensorDeviceClass,
-    BinarySensorEntity,
-    BinarySensorEntityDescription,
-)
+from homeassistant.components.binary_sensor import BinarySensorEntity, BinarySensorEntityDescription
+from homeassistant.components.binary_sensor.const import BinarySensorDeviceClass
 
 
 @dataclass(frozen=True, kw_only=True)

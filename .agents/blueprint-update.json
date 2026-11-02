@@ -1,0 +1,11 @@
+{
+  "identity": {
+    "domain": "offdelay",
+    "title": "Offdelay",
+    "prefix": "Offdelay",
+    "owner": "offdelay",
+    "repository": "ha-integration",
+    "author": "Andries Poupaert"
+  },
+  "reviewed": "74d46d929e640653c9b7b5b43fe48fbeda9ac5a4"
+}
