@@ -6,13 +6,13 @@ knowledge to build them.
 
 ## Scope
 
-Home Assistant custom integrations, commonly distributed through HACS, are community projects. They are not part of
+Home Assistant custom integrations, commonly distributed through the Marketplace or HACS, are community projects. They are not part of
 Home Assistant Core and are not automatically subject to the contribution rules of the Open Home Foundation (OHF).
 Core policies may still provide valuable guidance, but this project does not assume that every restriction appropriate
 for Core is also appropriate for an independently maintained community integration.
 
 If code from this project is contributed to an OHF repository, the current
-[OHF AI Policy](https://developers.home-assistant.io/docs/ai_policy/) applies to that contribution.
+[OHF AI Policy](https://contributors.home-assistant.io/start/ai-policy/) applies to that contribution.
 
 ## AI use is welcome
 
@@ -44,7 +44,7 @@ that the code is low quality.
 ## Maintainer responsibility
 
 Maintainers are encouraged to understand and oversee as much of their integration as reasonably possible, especially
-when distributing it through HACS. They remain responsible for honestly documenting what they have and have not
+when distributing it through the Marketplace or HACS. They remain responsible for honestly documenting what they have and have not
 reviewed or tested, responding to safety and security concerns, and avoiding unsupported claims about reliability.
 
 Where complete manual review is impractical, stronger indirect safeguards become more important. These include focused
@@ -95,7 +95,7 @@ change.
 
 The rules above govern this repository. The moment a contribution is aimed at an Open Home Foundation repository —
 `home-assistant/core`, the developer documentation, the brands repository — the [OHF AI
-policy](https://developers.home-assistant.io/docs/ai_policy) applies instead, and it is stricter:
+policy](https://contributors.home-assistant.io/start/ai-policy/) applies instead, and it is stricter:
 
 - **Agents must never open an issue, pull request, or comment there.** Autonomous contributions are closed on sight,
   and that includes anything that bypasses the issue or pull request templates. Prepare the material locally and hand
