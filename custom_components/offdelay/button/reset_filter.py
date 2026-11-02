@@ -3,7 +3,8 @@
 from custom_components.offdelay.api import OffdelayApiClientError
 from custom_components.offdelay.const import DOMAIN
 from custom_components.offdelay.entity import OffdelayEntity
-from homeassistant.components.button import ButtonDeviceClass, ButtonEntity, ButtonEntityDescription
+from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
+from homeassistant.components.button.const import ButtonDeviceClass
 from homeassistant.const import EntityCategory
 from homeassistant.exceptions import HomeAssistantError
 

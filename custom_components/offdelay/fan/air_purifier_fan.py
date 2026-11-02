@@ -5,7 +5,8 @@ from typing import Any
 from custom_components.offdelay.api import OffdelayApiClientError
 from custom_components.offdelay.const import DOMAIN
 from custom_components.offdelay.entity import OffdelayEntity
-from homeassistant.components.fan import FanEntity, FanEntityDescription, FanEntityFeature
+from homeassistant.components.fan import FanEntity, FanEntityDescription
+from homeassistant.components.fan.const import FanEntityFeature
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.util.percentage import percentage_to_ordered_list_item
 

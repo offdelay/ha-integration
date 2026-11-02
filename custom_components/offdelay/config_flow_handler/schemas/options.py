@@ -3,13 +3,13 @@
 from collections.abc import Mapping
 from typing import Any
 
-import voluptuous as vol
+import probatio
 
 from custom_components.offdelay.const import CONF_UPDATE_INTERVAL_HOURS, DEFAULT_UPDATE_INTERVAL_HOURS
 from homeassistant.helpers import selector
 
 
-def get_options_schema(defaults: Mapping[str, Any] | None = None) -> vol.Schema:
+def get_options_schema(defaults: Mapping[str, Any] | None = None) -> probatio.Schema:
     """
     Build the options form schema.
 
@@ -17,13 +17,13 @@ def get_options_schema(defaults: Mapping[str, Any] | None = None) -> vol.Schema:
         defaults: The entry's current options, used to pre-fill the form.
 
     Returns:
-        The voluptuous schema for the options form.
+        The probatio schema for the options form.
 
     """
     defaults = defaults or {}
-    return vol.Schema(
+    return probatio.Schema(
         {
-            vol.Optional(
+            probatio.Optional(
                 CONF_UPDATE_INTERVAL_HOURS,
                 default=defaults.get(CONF_UPDATE_INTERVAL_HOURS, DEFAULT_UPDATE_INTERVAL_HOURS),
             ): selector.NumberSelector(
