@@ -78,19 +78,26 @@ Define in `api/__init__.py`:
 - `{ClassPrefix}ApiClientError` (Base)
 - `{ClassPrefix}ApiClientCommunicationError` (Network, timeout, HTTP errors)
 - `{ClassPrefix}ApiClientAuthenticationError` (401, 403, invalid credentials)
-- Optional: `ApiClientRateLimitError(retry_after)` for rate limiting
+- `{ClassPrefix}ApiClientRateLimitError(retry_after)` (429), a subclass of the communication error, so code that
+  only knows the base still catches it
 
-**Mapping:** HTTP 401/403 → Auth, HTTP 429 → RateLimit (parse `Retry-After`), Timeout/ClientError → Communication
+**Mapping:** HTTP 401/403 → Auth, HTTP 429 → RateLimit with the `Retry-After` seconds (a client default when the
+header is missing or a date), Timeout/ClientError → Communication
 
 ## Error Handling in `_async_update_data()`
 
 Translate API exceptions into Home Assistant ones here, and only here:
 
-| API Exception         | Raise                          | Home Assistant Behavior |
-| --------------------- | ------------------------------ | ----------------------- |
-| `AuthenticationError` | `ConfigEntryAuthFailed`        | Triggers reauth flow    |
-| `CommunicationError`  | `UpdateFailed("message")`      | Retry with backoff      |
-| `RateLimitError`      | `UpdateFailed(retry_after=60)` | Wait before retry       |
+| API Exception         | Raise                                       | Home Assistant Behavior     |
+| --------------------- | ------------------------------------------- | --------------------------- |
+| `AuthenticationError` | `ConfigEntryAuthFailed`                     | Triggers reauth flow        |
+| `RateLimitError`      | `UpdateFailed(retry_after=err.retry_after)` | Next poll waits that long   |
+| `CommunicationError`  | `UpdateFailed("message")`                   | Retry at the usual interval |
+
+Catch `RateLimitError` before the communication error it subclasses. Home Assistant ignores `retry_after` during
+`async_config_entry_first_refresh()`; a rate limit at setup retries on the `ConfigEntryNotReady` backoff instead.
+Bound the wait before passing it on — at least a few seconds, at most the update interval — so `Retry-After: 0` does
+not poll in a loop and a huge value does not stop polling.
 
 **Import from:** `homeassistant.exceptions.ConfigEntryAuthFailed`,
 `homeassistant.helpers.update_coordinator.UpdateFailed`
@@ -99,7 +106,7 @@ Use `raise ... from err`. Pass the error message to the exception constructor an
 failures manually — Home Assistant does it, and manual logging buries the real error in repetition. Normal operation
 logging (debug/info) is still appropriate.
 
-See [Integration Setup Failures](https://developers.home-assistant.io/docs/integration_setup_failures).
+See [Integration Setup Failures](https://contributors.home-assistant.io/core/integrations/setup-failures/).
 
 ## Data Transformation (Coordinator Responsibility)
 
@@ -129,7 +136,7 @@ the protocol is proprietary, undocumented, or not worth the implementation effor
   released via `self.async_on_remove(...)` — a disabled entity is never added, so subscribing at setup leaks.
 - `async_set_updated_data()` on a polling coordinator also resets the timer until the next poll.
 
-See [HA Data Update Patterns](https://developers.home-assistant.io/docs/integration_fetching_data)
+See [HA Data Update Patterns](https://contributors.home-assistant.io/core/integrations/fetching-data/)
 
 ## First Refresh
 
@@ -140,7 +147,7 @@ See [HA Data Update Patterns](https://developers.home-assistant.io/docs/integrat
 **When setup should not be retried at all**, use `await coordinator.async_refresh()` instead — it does not raise, so
 the entry loads with entities in an unavailable state rather than going into the retry loop.
 
-See [Integration Setup Failures](https://developers.home-assistant.io/docs/integration_setup_failures#integrations-using-async_setup_entry)
+See [Integration Setup Failures](https://contributors.home-assistant.io/core/integrations/setup-failures/#during-setup)
 
 ## Always Update Parameter
 
@@ -208,4 +215,4 @@ accumulates itself; use `Store` for the payload the coordinator hands out.
 
 ## Reference
 
-[Home Assistant: Fetching Data](https://developers.home-assistant.io/docs/integration_fetching_data)
+[Home Assistant: Fetching Data](https://contributors.home-assistant.io/core/integrations/fetching-data/)

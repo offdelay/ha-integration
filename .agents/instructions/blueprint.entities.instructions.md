@@ -182,7 +182,7 @@ Per-platform members and the trap each platform carries:
 [`ha-entity-platform/references/platform-members.md`](../skills/ha-entity-platform/references/platform-members.md).
 Read the row for the platform you are adding.
 
-**Write operations:** call the API client through `entry.runtime_data`, then `await coordinator.async_request_refresh()`.
+**Write operations:** go through `self._async_write(lambda client: client.async_x(...), "translation_key")` on the base entity. It reaches the API client, turns a client error into a translated `HomeAssistantError` and then awaits `coordinator.async_request_refresh()`.
 Never mutate local state and assume it took — unless the device cannot report its state back at all (one-way RF or IR),
 in which case set `_attr_assumed_state = True` and write the optimistic state. The frontend then shows discrete on/off
 buttons instead of a toggle.
@@ -199,7 +199,7 @@ entity object outside `async_added_to_hass`: a disabled entity is never added, a
 property that re-reads it every poll. `supported_features`, `device_class` and capability attributes may change, but
 each change forces voice-assistant integrations to resynchronise with their cloud service.
 
-**Reference:** [Entity Developer Docs](https://developers.home-assistant.io/docs/core/entity)
+**Reference:** [Entity Developer Docs](https://contributors.home-assistant.io/core/entities/entity-class/)
 
 ## Entity Utilities
 

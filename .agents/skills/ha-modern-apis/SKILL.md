@@ -38,7 +38,7 @@ rg -n "runtime_data" .venv/lib/python*/site-packages/homeassistant/components/<s
 any secondary source.
 
 When the installed source is not enough — a pattern that is new rather than deprecated — check
-<https://developers.home-assistant.io/blog/> before implementing.
+<https://contributors.home-assistant.io/blog/> before implementing.
 
 ## The same rule, generalised: what counts as verified
 
@@ -112,6 +112,9 @@ Then rebuild the container (or re-run `script/setup/bootstrap`), and:
 script/hassfest && script/test
 rg -n "DeprecationWarning|will be removed" config/home-assistant.log
 ```
+
+When `script/test` reports that the manifest schema's categories differ from the installed Home Assistant, run
+`python3 script/.lib/manifest_categories.py` in the project virtualenv to copy them over.
 
 Bumping the minimum HA version in `hacs.json` / `manifest.json` drops support for older installs — that is a breaking
 change for users. See [`ha-breaking-changes`](../ha-breaking-changes/SKILL.md).
