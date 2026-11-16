@@ -93,11 +93,22 @@
       "minimumReleaseAge": "7 days"
     },
     {
+      "description": "These actions take a tool version beside their pin, so Renovate raises both together; dependabot.yml ignores them.",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["trufflesecurity/trufflehog", "jdx/mise-action"],
+      "enabled": true
+    },
+    {
       "description": "Home Assistant decides the Python version. Raise it by hand together with the Home Assistant version.",
       "matchManagers": ["mise"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false,
       "matchDepNames": ["python"]
+    },
+    {
+      "description": "ShellCheck is the shell linter with no real alternative, so a year without a release is not abandonment.",
+      "matchPackageNames": ["koalaman/shellcheck"],
+      "abandonmentThreshold": null
     },
     {
       "description": "Renovate's own engines refuse a Node major newer than this.",
